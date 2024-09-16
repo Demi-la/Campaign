@@ -7,25 +7,31 @@ import campaignIcon from "../../assets/svgs/campaignIcon.svg";
 import market from "../../assets/svgs/market.svg";
 import settings from "../../assets/svgs/settings.svg";
 import questionMark from "../../assets/svgs/questionMark.svg";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/NewCampaign");
+  }
   return (
     <Box
       background={"#F0F4F4"}
       paddingY={"1rem"}
-      width={"27%"}
+      width={"26%"}
       height={"auto"}
       display={"flex"}
       flexDir={"column"}
       alignItems={"center"}
       justifyContent={"center"}
-      gap={"5rem"}
+      gap={"4rem"}
     >
       <Box>
-        <Image src={logo} alt="Logo" width={"16rem"} mt={"1rem"} />
+        <Image src={logo} alt="Logo" width={"16rem"} />
       </Box>
       <Box>
-        <CustomButton bgColor="#247B7B">
+        <CustomButton bgColor="#247B7B" onClick={handleNavigate}>
           <Box
             fontWeight={"600"}
             fontSize={"20px"}
@@ -52,15 +58,17 @@ const Nav = () => {
             />
             Overview
           </ListItem>
-          <ListItem display={"flex"} alignItems={"center"}>
-            <Image
-              src={campaignIcon}
-              alt="Campaign Icon"
-              boxSize="1.5rem"
-              mr={2}
-            />
-            Campaign
-          </ListItem>
+          <Link to={`/`} >
+            <ListItem display={"flex"} alignItems={"center"} mt={"2rem"}>
+              <Image
+                src={campaignIcon}
+                alt="Campaign Icon"
+                boxSize="1.5rem"
+                mr={2}
+              />
+              Campaign
+            </ListItem>
+          </Link>
           <ListItem display={"flex"} alignItems={"center"}>
             <Image src={market} alt="Market Icon" boxSize="1.5rem" mr={2} />
             Market Intelligence
@@ -79,7 +87,7 @@ const Nav = () => {
           color={"#247B7B"}
           mt={"2rem"}
         >
-          <Image src={questionMark} alt="Question mark"/>
+          <Image src={questionMark} alt="Question mark" />
         </Text>
         <Text
           bgGradient="linear(to-r, #247B7B 20%, #3B247B 100%)"

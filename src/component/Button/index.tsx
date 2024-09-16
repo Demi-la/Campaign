@@ -13,17 +13,17 @@ const CustomButton: FC<ButtonProps> = ({
   children,
   bgColor = "transparent",
   padding = "1.7rem 2.5rem",
-  border = "none", 
+  border = "none",
   hoverBg = "#1f6262",
   ...props
 }) => {
   return (
     <Button
-      bg={bgColor} 
-      color={props.color || "white"} 
-      p={padding} 
+      bg={bgColor}
+      color={props.color || "white"}
+      p={padding}
       border={border}
-      _hover={{ bg: hoverBg }} 
+      _hover={{ bg: hoverBg }}
       {...props}
     >
       {children}
