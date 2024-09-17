@@ -1,20 +1,24 @@
-import { Box, Image, List, ListItem, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, List, ListItem, Text } from "@chakra-ui/react";
 import logo from "../../assets/svgs/logo.svg";
 import { FiPlus } from "react-icons/fi";
 import CustomButton from "../Button";
-import  overviewIcon from "../../assets/svgs/overviewIcon.svg";
+import overviewIcon from "../../assets/svgs/overviewIcon.svg";
 import campaignIcon from "../../assets/svgs/campaignIcon.svg";
 import market from "../../assets/svgs/market.svg";
 import settings from "../../assets/svgs/settings.svg";
 import questionMark from "../../assets/svgs/questionMark.svg";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 const Nav = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const handleNavigate = () => {
     navigate("/NewCampaign");
-  }
+  };
+
+  const isActive = (path: string) => location.pathname === path;
+
   return (
     <Box
       background={"#F0F4F4"}
@@ -47,37 +51,69 @@ const Nav = () => {
           color={"#455454"}
           fontWeight={"500"}
           fontSize={"16px"}
-          ml={"2.5rem"}
         >
           <Link to={`/Overview`}>
-            <ListItem display={"flex"} alignItems={"center"} mt={"2rem"}>
-              <Image
-                src={overviewIcon}
-                alt="Overview Icon"
-                boxSize="1.5rem"
-                mr={2}
-              />
-              Overview
+            <ListItem
+              display={"flex"}
+              alignItems={"center"}
+              mt={"2rem"}
+              padding={isActive("/Overview") ? "1rem 0rem" : "0"}
+              border={isActive("/Overview") ? "2px solid white" : "none"}
+              color={isActive("/Overview") ? "#247B7B" : "#455454"}
+              borderRadius={"md"}
+              backgroundColor={isActive("/Overview") ? "white" : "none"}
+            >
+              <Flex ml={"2.5rem"}>
+                <Image
+                  src={overviewIcon}
+                  alt="Overview Icon"
+                  boxSize="1.5rem"
+                  mr={2}
+                />
+                Overview
+              </Flex>
             </ListItem>
           </Link>
           <Link to={`/`}>
-            <ListItem display={"flex"} alignItems={"center"} mt={"2rem"}>
+            <ListItem
+              display={"flex"}
+              alignItems={"center"}
+              mt={"2rem"}
+              padding={isActive("/") ? "1rem 0rem" : "0"}
+              border={isActive("/") ? "2px solid white" : "none"}
+              color={isActive("/") ? "#247B7B" : "#455454"}
+              borderRadius={"md"}
+              backgroundColor={isActive("/") ? "white" : "none"}
+            >
+              <Flex ml={"2.5rem"}>
+                <Image
+                  src={campaignIcon}
+                  alt="Campaign Icon"
+                  boxSize="1.5rem"
+                  mr={2}
+                />
+                Campaign
+              </Flex>
+            </ListItem>
+          </Link>
+
+          <ListItem display={"flex"} alignItems={"center"} mt={"2rem"}>
+            <Flex ml={"2.5rem"}>
+              <Image src={market} alt="Market Icon" boxSize="1.5rem" mr={2} />
+              Market Intelligence
+            </Flex>
+          </ListItem>
+
+          <ListItem display={"flex"} alignItems={"center"} mt={"2rem"}>
+            <Flex ml={"2.5rem"}>
               <Image
-                src={campaignIcon}
-                alt="Campaign Icon"
+                src={settings}
+                alt="Settings Icon"
                 boxSize="1.5rem"
                 mr={2}
               />
-              Campaign
-            </ListItem>
-          </Link>
-          <ListItem display={"flex"} alignItems={"center"}>
-            <Image src={market} alt="Market Icon" boxSize="1.5rem" mr={2} />
-            Market Intelligence
-          </ListItem>
-          <ListItem display={"flex"} alignItems={"center"}>
-            <Image src={settings} alt="Settings Icon" boxSize="1.5rem" mr={2} />
-            Account Settings
+              Account Settings
+            </Flex>
           </ListItem>
         </List>
       </Box>
@@ -123,4 +159,3 @@ const Nav = () => {
 };
 
 export default Nav;
-

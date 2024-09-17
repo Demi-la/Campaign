@@ -1,16 +1,15 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
-  Box,
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   Button,
+  Flex,
+  Text,
 } from "@chakra-ui/react";
 import {
   ColumnSort,
@@ -21,20 +20,20 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import Pagination from "./Pagination";
-
 
 interface TableType {
   columns?: any;
   data?: any;
   onSortingChange?: boolean;
-  
 }
+
 const CustomTable: React.FC<TableType> = (props) => {
   const { data, columns } = props;
 
   const [sorting, setSorting] = useState<ColumnSort[]>([]);
   const [filtering, setFiltering] = useState("");
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
 
   const table = useReactTable({
     data,
@@ -46,12 +45,51 @@ const CustomTable: React.FC<TableType> = (props) => {
     state: {
       sorting: sorting,
       globalFilter: filtering,
-    
+      pagination: {
+        pageIndex,
+        pageSize,
+      },
     },
     onSortingChange: setSorting,
     onGlobalFilterChange: setFiltering,
-   
+    onPaginationChange: (updater) => {
+      if (typeof updater === "function") {
+        const { pageIndex: newPageIndex, pageSize: newPageSize } = updater(
+          table.getState().pagination
+        );
+        setPageIndex(newPageIndex);
+        setPageSize(newPageSize);
+      } else {
+        setPageIndex(updater.pageIndex ?? pageIndex);
+        setPageSize(updater.pageSize ?? pageSize);
+      }
+    },
   });
+
+  const handleFirstPage = () => {
+    if (table.getCanPreviousPage()) {
+      table.setPageIndex(0);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (table.getCanPreviousPage()) {
+      table.previousPage();
+    }
+  };
+
+  const handleNextPage = () => {
+    if (table.getCanNextPage()) {
+      table.nextPage();
+    }
+  };
+
+  const handleLastPage = () => {
+    if (table.getCanNextPage()) {
+      table.setPageIndex(table.getPageCount() - 1);
+    }
+  };
+
   return (
     <>
       <TableContainer mt={"3rem"}>
@@ -95,27 +133,51 @@ const CustomTable: React.FC<TableType> = (props) => {
         </Table>
       </TableContainer>
 
-      <div>
-        <button
+      <Flex mt="2.5rem" justifyContent="space-between" alignItems="center">
+        <Button
+          onClick={handleFirstPage}
           disabled={!table.getCanPreviousPage()}
-          onClick={() => table.setPageIndex(0)}
-         
+          background={"#247B7B"}
+          color={"white"}
         >
-          back
-        </button>
-        <button
+          First
+        </Button>
+        <Button
+          onClick={handlePreviousPage}
+          disabled={!table.getCanPreviousPage()}
+          background={"#247B7B"}
+          color={"white"}
+        >
+          Previous
+        </Button>
+        <Text>
+          Page {table.getState().pagination.pageIndex + 1} of{" "}
+          {table.getPageCount()}
+        </Text>
+        <Button
+          onClick={handleNextPage}
           disabled={!table.getCanNextPage()}
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-         
+          background={"#247B7B"}
+          color={"white"}
         >
-          next
-        </button>
-      </div>
-
-      {/* <Pagination table={table} /> */}
+          Next
+        </Button>
+        <Button
+          onClick={handleLastPage}
+          disabled={!table.getCanNextPage()}
+          background={"#247B7B"}
+          color={"white"}
+        >
+          Last
+        </Button>
+      </Flex>
     </>
   );
 };
 
 export default CustomTable;
+
+
+
+
 

@@ -65,7 +65,7 @@ const OverView = () => {
             No activity yet. Create a new campaign to get started
           </Text>
 
-          <Link to={`/`}>
+          <Link to={`/NewCampaign`}>
             <CustomButton bgColor="#247B7B">
               <Box
                 fontWeight="600"
