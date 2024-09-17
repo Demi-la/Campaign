@@ -1,5 +1,12 @@
-import { Box, Text, useToast } from "@chakra-ui/react";
-import { AddNewCampaignForm } from "./AddNewCampaignForm";
+import {
+  Box,
+  Flex,
+  Spinner,
+  Text,
+  useToast,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { CampaignForm } from "./CampaignForm";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   useUpdateCampaignMutation,
@@ -7,6 +14,8 @@ import {
 } from "../../redux/api";
 import { useNavigate, useParams } from "react-router-dom";
 import KeywordInput from "./KeywordInput";
+import ConfirmModal from "../../component/ConfirmModal";
+import { useEffect } from "react";
 
 interface CampaignFormData {
   campaignName: string;
@@ -28,8 +37,14 @@ const EditCampaign = () => {
   const [updateCampaign, { isLoading, isSuccess, isError, error }] =
     useUpdateCampaignMutation();
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const toast = useToast();
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  };
 
   const {
     register,
@@ -37,22 +52,37 @@ const EditCampaign = () => {
     formState: { errors },
     setValue,
     getValues,
+    reset,
   } = useForm<CampaignFormData>({
     mode: "onBlur",
-    values: {
-      campaignName: campaign ? campaign.campaignName : "",
-      campaignDescription: campaign ? campaign.campaignDescription : "",
-      startDate: campaign ? campaign.startDate : "",
-      endDate: campaign ? campaign.endDate : "",
-      digestCampaign: campaign ? campaign.digestCampaign : "",
-      linkedKeywords: campaign ? campaign.linkedKeywords || [] : "",
-      dailyDigest: campaign ? campaign.dailyDigest : "",
-      campaignStatus: campaign ? campaign.campaignStatus || "Inactive" : "",
+    defaultValues: {
+      campaignName: "",
+      campaignDescription: "",
+      startDate: "",
+      endDate: "",
+      digestCampaign: false,
+      linkedKeywords: [],
+      dailyDigest: "",
+      campaignStatus: "Inactive",
     },
   });
 
+  useEffect(() => {
+    if (campaign) {
+      reset({
+        campaignName: campaign.campaignName,
+        campaignDescription: campaign.campaignDescription,
+        startDate: formatDate(campaign?.startDate || ""),
+        endDate: formatDate(campaign?.endDate || ""),
+        digestCampaign: campaign.digestCampaign,
+        linkedKeywords: campaign.linkedKeywords,
+        dailyDigest: campaign.dailyDigest,
+        campaignStatus: campaign.campaignStatus || "Inactive",
+      });
+    }
+  }, [campaign, reset]);
+
   const onSubmit: SubmitHandler<CampaignFormData> = async (data) => {
-    console.log("Form Data:", data);
     if (!id) {
       toast({
         title: "Error",
@@ -68,31 +98,25 @@ const EditCampaign = () => {
       id: parseInt(id),
       campaignName: data.campaignName,
       campaignDescription: data.campaignDescription,
-      startDate: data.startDate,
-      endDate: data.endDate,
-      digestCampaign: data.digestCampaign,
+      startDate: formatDate(campaign?.startDate || ""),
+      endDate: formatDate(campaign?.endDate || ""),
+      digestCampaign:
+        data.digestCampaign === true || data.digestCampaign === false
+          ? data.digestCampaign
+          : false,
       linkedKeywords: data.linkedKeywords,
       dailyDigest: data.dailyDigest,
       campaignStatus: data.campaignStatus,
     };
-    console.log("Data being sent:", campaignData);
 
     try {
-      console.log("Data being sent:", campaignData);
       const response = await updateCampaign({
         id,
         data: campaignData,
       }).unwrap();
-      console.log("Update response:", response);
-      toast({
-        title: "Campaign updated successfully",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-      navigate("/");
+
+      onOpen();
     } catch (err) {
-      console.error("Error updating campaign:", err);
       let errorMessage = "Failed to update campaign. ";
 
       if (err && typeof err === "object" && "data" in err) {
@@ -115,15 +139,40 @@ const EditCampaign = () => {
   };
 
   const handleKeywordsChange = (keywords: string[]) => {
-    setValue("linkedKeywords", keywords); // To Ensure it works with string[]
+    setValue("linkedKeywords", keywords);
   };
-  console.log(campaign);
   return (
-    <Box mt={"2rem"} px={"4rem"}>
+    <Box mt={"2rem"} px={"4rem"} position={"relative"}>
       <Text color={"#247B7B"} fontWeight={"700"} fontSize={"1.25rem"}>
         Edit Campaign
       </Text>
-      <AddNewCampaignForm
+      {isLoading && (
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          width="100%"
+          height="100%"
+          bg="rgba(255, 255, 255, 0.8)"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          zIndex="9999"
+        >
+          <Flex flexDir={"column"} align="center">
+            <Spinner size="xl" />
+            <Text mt="1rem">Creating Campaign....</Text>
+          </Flex>
+        </Box>
+      )}
+      {isSuccess && <Text color="green">Campaign created successfully!</Text>}
+      {isError && (
+        <Text color="red">
+          Failed to create campaign:{" "}
+          {error instanceof Error ? error.message : "Unknown error"}
+        </Text>
+      )}
+      <CampaignForm
         register={register}
         errors={errors}
         setValue={setValue}
@@ -134,15 +183,18 @@ const EditCampaign = () => {
         isEditMode={true}
       >
         <KeywordInput onChange={handleKeywordsChange} />
-      </AddNewCampaignForm>
-      {isFetching && <Text>Loading...</Text>}
-      {isSuccess && <Text color="green">Campaign updated successfully!</Text>}
-      {isError && (
-        <Text color="red">
-          Failed to update campaign:{" "}
-          {error instanceof Error ? error.message : "Unknown error"}
-        </Text>
-      )}
+      </CampaignForm>
+      <ConfirmModal
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Campaign Created"
+        message="Your campaign has been updated successfully!"
+        actionButtonLabel="Go to Campaigns"
+        onActionClick={() => {
+          onClose();
+          navigate("/");
+        }}
+      />
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react"
+import { Box, Flex, Spinner, Text } from "@chakra-ui/react"
 import CampaignNav from "./CampaignNav"
 import { useGetCampaignQuery } from "../../redux/api";
 import CustomTable from "./Table";
@@ -9,16 +9,22 @@ import Actions from "../../component/Actions";
 
 const Campaigns = () => {
     const { data: campaign = [], error, isLoading } = useGetCampaignQuery();
-     const allCount = campaign.length;
-     const inactiveCount = campaign.filter(
-       (campaign: { campaignStatus: string; }) => campaign.campaignStatus === "Inactive"
+     const allCampaigns = campaign.length;
+     const inactiveCampaigns= campaign.filter(
+       (campaign: { campaignStatus: string }) =>
+         campaign.campaignStatus === "Inactive"
      ).length;
-     const activeCount = campaign.filter(
-       (campaign: { campaignStatus: string; }) => campaign.campaignStatus === "Active"
+     const activeCampaigns = campaign.filter(
+       (campaign: { campaignStatus: string }) =>
+         campaign.campaignStatus === "Active"
      ).length;
-    
-    console.log("Campaigns data: ", campaign);
-     if (isLoading) return <Text>Loading...</Text>;
+    if (isLoading) {
+      return (
+        <Flex justify="center" align="center" height="100vh">
+          <Spinner size="xl" />
+        </Flex>
+      );
+    }
      if (error) return <Text>Error loading campaigns</Text>;
     
     const campaignColumns: ColumnDef<any>[] = [
@@ -64,9 +70,9 @@ const Campaigns = () => {
   return (
     <Box px={"4rem"}>
       <CampaignNav
-        allCount={allCount}
-        inactiveCount={inactiveCount}
-        activeCount={activeCount}
+        allCampaigns={allCampaigns}
+        inactiveCampaigns={inactiveCampaigns}
+        activeCampaigns={activeCampaigns}
       />
       <CustomTable
         data={campaign && campaign.length ? campaign : []}

@@ -5,14 +5,14 @@ import SearchInput from '../../component/Search';
 import CustomButton from '../../component/Button';
 
 interface CampaignNavType {
-  allCount: number;
-  inactiveCount: number;
-  activeCount: number;
+  allCampaigns: number;
+  inactiveCampaigns: number;
+  activeCampaigns: number;
 }
 const CampaignNav: React.FC<CampaignNavType> = ({
-  allCount,
-  inactiveCount,
-  activeCount,
+  allCampaigns,
+  inactiveCampaigns,
+  activeCampaigns,
 }) => {
   return (
     <>
@@ -27,21 +27,21 @@ const CampaignNav: React.FC<CampaignNavType> = ({
               color="#2A9D8FD1"
               padding={"1.2rem 1rem"}
             >
-              All ({allCount})
+              All ({allCampaigns})
             </CustomButton>
             <CustomButton
               border="1px solid #2A9D8FD1"
               color="#2A9D8FD1"
               padding={"1.2rem 1rem"}
             >
-              Inactive ({inactiveCount})
+              Inactive ({inactiveCampaigns})
             </CustomButton>
             <CustomButton
               border="1px solid #2A9D8FD1"
               color="#2A9D8FD1"
               padding={"1.2rem 1rem"}
             >
-              Active ({activeCount})
+              Active ({activeCampaigns})
             </CustomButton>
           </Flex>
           <Flex gap={"1rem"}>

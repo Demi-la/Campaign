@@ -28,6 +28,7 @@ interface TableType {
   columns?: any;
   data?: any;
   onSortingChange?: boolean;
+  
 }
 const CustomTable: React.FC<TableType> = (props) => {
   const { data, columns } = props;

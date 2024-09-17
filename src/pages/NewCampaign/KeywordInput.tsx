@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Box, Input, Tag, TagLabel, TagCloseButton } from "@chakra-ui/react";
 
-
-interface KeywordInputProps {
+interface KeywordInputType {
   onChange: (keywords: string[]) => void;
+  initialKeywords?: string[];
 }
 
-const KeywordInput: React.FC<KeywordInputProps> = ({ onChange }) => {
-  const [keywords, setKeywords] = useState<string[]>([]);
+const KeywordInput: React.FC<KeywordInputType> = ({
+  onChange,
+  initialKeywords = [],
+}) => {
+  const [keywords, setKeywords] = useState<string[]>(initialKeywords);
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,10 +54,11 @@ const KeywordInput: React.FC<KeywordInputProps> = ({ onChange }) => {
           <Tag
             key={index}
             size="md"
-            borderRadius="full"
+            borderRadius="lg"
             variant="solid"
             colorScheme="teal"
             m={1}
+            p={"0.6rem 1rem"}
           >
             <TagLabel>{keyword}</TagLabel>
             <TagCloseButton onClick={() => removeKeyword(index)} />

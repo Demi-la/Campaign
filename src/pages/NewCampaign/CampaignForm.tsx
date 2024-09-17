@@ -11,6 +11,7 @@ import {
 import { Box, Flex, Text } from "@chakra-ui/react";
 import CustomButton from "../../component/Button";
 import KeywordInput from "./KeywordInput";
+import { useNavigate } from "react-router-dom";
 
 interface AddNewCampaignFormType {
   register: UseFormRegister<any>;
@@ -25,7 +26,7 @@ interface AddNewCampaignFormType {
   children?: React.ReactNode;
 }
 
-export const AddNewCampaignForm: React.FC<AddNewCampaignFormType> = ({
+export const CampaignForm: React.FC<AddNewCampaignFormType> = ({
   register,
   errors,
   setValue,
@@ -34,11 +35,7 @@ export const AddNewCampaignForm: React.FC<AddNewCampaignFormType> = ({
   onSubmit,
   isEditMode = false,
 }) => {
-  const options = [
-    { value: "daily", label: "Daily" },
-    { value: "weekly", label: "Weekly" },
-    { value: "monthly", label: "Monthly" },
-  ];
+
   const [linkedKeywords, setLinkedKeywords] = useState<string[]>([]);
 
   // Update form value when keywords change
@@ -46,6 +43,7 @@ export const AddNewCampaignForm: React.FC<AddNewCampaignFormType> = ({
     setLinkedKeywords(keywords);
     setValue("linkedKeywords", keywords);
   };
+  const navigate = useNavigate();
   return (
     <form onSubmit={onSubmit}>
       <Box width={"80%"} mt={"1rem"}>
@@ -116,7 +114,11 @@ export const AddNewCampaignForm: React.FC<AddNewCampaignFormType> = ({
         </Flex>
         <Box mb="1.5rem">
           <Text mb="0.5rem">Linked Keywords</Text>
-          <KeywordInput onChange={handleKeywordsChange} /> {/*  KeywordInput */}
+          <KeywordInput
+            onChange={handleKeywordsChange}
+            initialKeywords={defaultValues.linkedKeywords || []}
+          />
+          {/*  KeywordInput */}
           {errors["linkedKeywords"] && (
             <Text color="red.500" fontSize="sm">
               Linked Keywords are required
@@ -135,17 +137,20 @@ export const AddNewCampaignForm: React.FC<AddNewCampaignFormType> = ({
             defaultValue={defaultValues.dailyDigest}
             error={errors["dailyDigest"]}
             inputType="select"
-            options={options}
+            options={[
+              { value: "weekly", label: "Weekly" },
+              { value: "monthly", label: "Monthly" },
+            ]}
           />
         </Box>
 
         <Flex gap="1rem" mb={"3rem"} mt={"3rem"}>
           <CustomButton
             type="button"
-            onClick={() => console.log("Cancel")}
             border="2px solid #247B7B"
             color="#247B7B"
             padding={"1.3rem 4rem"}
+            onClick={() => navigate("/")}
           >
             Cancel
           </CustomButton>

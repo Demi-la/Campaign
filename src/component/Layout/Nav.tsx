@@ -49,16 +49,18 @@ const Nav = () => {
           fontSize={"16px"}
           ml={"2.5rem"}
         >
-          <ListItem display={"flex"} alignItems={"center"}>
-            <Image
-              src={overviewIcon}
-              alt="Overview Icon"
-              boxSize="1.5rem"
-              mr={2}
-            />
-            Overview
-          </ListItem>
-          <Link to={`/`} >
+          <Link to={`/Overview`}>
+            <ListItem display={"flex"} alignItems={"center"} mt={"2rem"}>
+              <Image
+                src={overviewIcon}
+                alt="Overview Icon"
+                boxSize="1.5rem"
+                mr={2}
+              />
+              Overview
+            </ListItem>
+          </Link>
+          <Link to={`/`}>
             <ListItem display={"flex"} alignItems={"center"} mt={"2rem"}>
               <Image
                 src={campaignIcon}

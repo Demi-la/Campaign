@@ -51,7 +51,7 @@ const Actions: React.FC<ActionsProps> = ({ id }) => {
 
   return (
     <Flex gap={"1rem"}>
-      <Link to={`/`}>
+      <Link to={`/CampaignDetails/${id}`}>
         <Box>
           <GoEye />
         </Box>

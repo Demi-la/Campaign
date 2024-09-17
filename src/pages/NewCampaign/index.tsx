@@ -1,20 +1,19 @@
-import { Box, Text, useToast, useDisclosure } from "@chakra-ui/react";
-import { AddNewCampaignForm } from "./AddNewCampaignForm";
+import {
+  Box,
+  Text,
+  useToast,
+  useDisclosure,
+  Flex,
+  Spinner,
+} from "@chakra-ui/react";
+import { CampaignForm } from "./CampaignForm";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useCreateCampaignMutation } from "../../redux/api";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../../component/ConfirmModal";
 
 const validateForm = [
-  [
-    "campaignName",
-    "campaignDescription",
-    "startDate",
-    "endDate",
-    // "digestCampaign",
-    "linkedKeywords",
-    "dailyDigest",
-  ],
+  ["campaignName", "startDate", "linkedKeywords", "dailyDigest"],
 ];
 const initialValues = {
   campaignName: "",
@@ -50,29 +49,58 @@ const NewCampaign = () => {
     useCreateCampaignMutation();
   const onSubmit: SubmitHandler<FormInputTypes> = async (data) => {
     try {
-      console.log("Submitting campaign data:", JSON.stringify(data, null, 2));
       await createCampaign(data).unwrap();
       onOpen();
     } catch (err) {
-      console.error("Error creating campaign:", err);
-      let errorMessage = "Failed to create campaign";
+      let errorMessage =
+        "Failed to create campaign. Check your internet connection";
       if (err && typeof err === "object" && "data" in err) {
-        console.error("Server error response:", err.data);
         errorMessage = `Error: ${JSON.stringify(err.data)}`;
       } else if (err instanceof Error) {
         errorMessage = err.message;
       }
-      //  onOpen("Error", errorMessage);
+      toast({
+        title: "Error",
+        description: errorMessage,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
   return (
-    <Box mt={"2rem"} px={"4rem"}>
+    <Box mt={"2rem"} px={"4rem"} position="relative">
       <Text color={"#247B7B"} fontWeight={"700"} fontSize={"1.25rem"}>
         Create New Campaign
       </Text>
-
-      <AddNewCampaignForm
+      {isLoading && (
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          width="100%"
+          height="100%"
+          bg="rgba(255, 255, 255, 0.8)"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          zIndex="9999"
+        >
+          <Flex flexDir={"column"} align="center">
+            <Spinner size="xl" />
+            <Text mt="1rem">Creating Campaign....</Text>
+          </Flex>
+        </Box>
+      )}
+      {isSuccess && <Text color="green">Campaign created successfully!</Text>}
+      {isError && (
+        <Text color="red">
+          Failed to create campaign:{" "}
+          {error instanceof Error ? error.message : "Unknown error"}
+        </Text>
+      )}
+      <CampaignForm
         register={register}
         errors={errors}
         setValue={setValue}
@@ -81,14 +109,6 @@ const NewCampaign = () => {
         onSubmit={handleSubmit(onSubmit)}
         isSubmitting={isLoading}
       />
-      {isLoading && <Text>Loading...</Text>}
-      {isSuccess && <Text color="green">Campaign created successfully!</Text>}
-      {isError && (
-        <Text color="red">
-          Failed to create campaign:{" "}
-          {error instanceof Error ? error.message : "Unknown error"}
-        </Text>
-      )}
       <ConfirmModal
         isOpen={isOpen}
         onClose={onClose}
