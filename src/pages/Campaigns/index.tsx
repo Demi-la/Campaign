@@ -8,7 +8,11 @@ import Actions from "../../component/Actions";
 
 
 const Campaigns = () => {
-    const { data: campaign = [], error, isLoading } = useGetCampaignQuery();
+    const {
+      data: campaign = [],
+      error,
+      isLoading,
+    } = useGetCampaignQuery();
      const allCampaigns = campaign.length;
      const inactiveCampaigns= campaign.filter(
        (campaign: { campaignStatus: string }) =>
@@ -26,7 +30,7 @@ const Campaigns = () => {
       );
     }
      if (error) return <Text>Error loading campaigns</Text>;
-    
+     
     const campaignColumns: ColumnDef<any>[] = [
       {
         header: "S/N",
@@ -62,7 +66,13 @@ const Campaigns = () => {
         cell: (info: any) => {
           const campaignId = info.row.original.id; 
             const campaignName = info.row.original.campaignName; 
-          return <Actions id={campaignId} campaignName={campaignName} />;
+          return (
+            <Actions
+              id={campaignId}
+              campaignName={campaignName}
+             
+            />
+          );
         },
       },
     ];

@@ -1,15 +1,23 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
 export const apiRequest = createApi({
   reducerPath: "apiRequest",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://infinion-test-int-test.azurewebsites.net/",
   }),
-  tagTypes: ["Posts", "Campaign"],
+  tagTypes: ["Campaign"],
   endpoints: (builder) => ({
     getCampaign: builder.query<any, void>({
       query: () => `api/Campaign`,
-      providesTags: ["Campaign"],
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }: { id: string }) => ({
+                type: "Campaign",
+                id,
+              })),
+              { type: "Campaign", id: "LIST" }, 
+            ]
+          : [{ type: "Campaign", id: "LIST" }],
     }),
     getCampaignById: builder.query<any, string>({
       query: (id) => `api/Campaign/${id}`,
@@ -23,7 +31,7 @@ export const apiRequest = createApi({
       }),
       invalidatesTags: ["Campaign"],
     }),
-   
+
     updateCampaign: builder.mutation<any, { id: string; data: any }>({
       query: ({ id, data }) => ({
         url: `api/Campaign/${id}`,
@@ -33,7 +41,8 @@ export const apiRequest = createApi({
           "Content-Type": "application/json",
         },
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Campaign", id }],
+      invalidatesTags: (result, error, { id }) =>
+        id ? [{ type: "Campaign", id }] : [], 
     }),
 
     deleteCampaign: builder.mutation<void, string>({
@@ -41,7 +50,7 @@ export const apiRequest = createApi({
         url: `api/Campaign/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, id ) => [{ type: "Campaign", id }],
+      invalidatesTags: (result, error, id) => [{ type: "Campaign", id }],
     }),
   }),
 });
@@ -53,4 +62,6 @@ export const {
   useUpdateCampaignMutation,
   useDeleteCampaignMutation,
 } = apiRequest;
+
+
 

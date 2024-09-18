@@ -114,7 +114,7 @@ const EditCampaign = () => {
         id,
         data: campaignData,
       }).unwrap();
-
+      
       onOpen();
     } catch (err) {
       let errorMessage = "Failed to update campaign. ";
