@@ -23,7 +23,7 @@ const Header = () => {
           px={{base:"1rem", lg:"4rem"}}
         >
           <Flex gap={"15%"}>
-            <Box w={{base:"70%", lg:"40%"}}>
+            <Box w={{base:"70%", md:"60%", lg:"40%"}}>
               <Input placeholder="Search for anything" py={"1.5rem"} />
             </Box>
 
@@ -54,7 +54,7 @@ const Header = () => {
           </Flex>
         </Box>
       </Box>
-      <Box mt={{base:"7rem", md:"10rem", lg:"10rem"}}></Box>
+      <Box mt={{base:"7rem", md:"7rem", lg:"10rem"}}></Box>
     </>
   );
 };

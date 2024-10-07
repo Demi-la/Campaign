@@ -21,7 +21,7 @@ const CampaignNav: React.FC<CampaignNavType> = ({
           All Campaigns
         </Text>
         <Flex mt={"2rem"} gap={"5rem"}>
-          <Grid gap={{base:"0.5rem", lg:"1rem"}} gridTemplateColumns={{base:"1fr 1fr", lg:"1fr 1fr 1fr"}}>
+          <Grid gap={{base:"0.5rem", lg:"1rem"}} gridTemplateColumns={{base:"1fr 1fr", md:"1fr 1fr 1fr"}}>
             <CustomButton
               border="1px solid #2A9D8FD1"
               color="#2A9D8FD1"

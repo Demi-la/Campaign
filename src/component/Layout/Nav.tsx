@@ -23,7 +23,7 @@ const Nav = () => {
     <Box
       background={"#F0F4F4"}
       paddingY={"1rem"}
-      width={{ base: "30%", md: "26%", lg: "26%" }}
+      width={{ base: "30%", md: "31%", lg: "26%" }}
       height={"auto"}
       display={"flex"}
       flexDir={"column"}
