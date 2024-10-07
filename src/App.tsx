@@ -17,7 +17,7 @@ export const App = () => (
     <Box fontFamily="'Nunito', sans-serif">
       <Routes>
         <Route path="/*" element={<Layout />}>
-          <Route path="" element={<Campaigns />} />
+          <Route index element={<Campaigns />} />
           <Route path="NewCampaign" element={<NewCampaign />} />
           <Route path="EditCampaign/:id" element={<EditCampaign />} />
           <Route path="CampaignDetails/:id" element={<CampaignDetails />} />
