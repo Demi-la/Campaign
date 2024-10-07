@@ -20,7 +20,7 @@ const Header = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          px={{base:"1.5rem", lg:"4rem"}}
+          px={{base:"1rem", lg:"4rem"}}
         >
           <Flex gap={"15%"}>
             <Box w={{base:"70%", lg:"40%"}}>

@@ -80,7 +80,7 @@ const Actions: React.FC<ActionsProps> = ({ id }) => {
             ? "Deleting..."
             : isDeleteSuccess
             ? "Go Back to campaign list"
-            : "Delete Campaign"
+            : "Delete"
         }
         onActionClick={isDeleteSuccess ? handleModalClose : handleDelete}
         secondaryButtonLabel={!isDeleteSuccess ? "Cancel" : undefined}

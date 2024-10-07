@@ -64,12 +64,12 @@ const CampaignDetails = () => {
 
   return (
     <Box p={5}>
-      <Flex justify="space-between" align="center" mb={5}>
+      <Flex justify="space-between" align={{base:"left", lg:"center"}} mb={5} flexDir={{base:"column", md:"row"}}>
         <Text color={"#247B7B"} fontWeight={"700"} fontSize={"1.25rem"}>
            Campaign Details
         </Text>
         <Link to="/">
-          <Button colorScheme="teal">Back to Campaigns</Button>
+          <Button colorScheme="teal" mt={{base:"1rem", md:"0"}}>Back to Campaigns</Button>
         </Link>
       </Flex>
 

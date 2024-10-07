@@ -15,7 +15,7 @@ const OverView = () => {
           <Text color={"#247B7B"} fontWeight={"700"} fontSize={"1.5rem"}>
             Overview
           </Text>
-          <Flex gap={"1rem"}>
+          <Flex gap={"1rem"} display={{ base: "none", md: "flex" }}>
             <Flex
               border="1px solid"
               borderColor="#F0F4F4"
@@ -60,7 +60,7 @@ const OverView = () => {
             fontWeight="600"
             fontSize="14px"
             mt="2rem"
-            mb={"2rem"}
+            mb={{ base: "4rem", lg: "2rem" }}
           >
             No activity yet. Create a new campaign to get started
           </Text>

@@ -46,7 +46,7 @@ export const CampaignForm: React.FC<AddNewCampaignFormType> = ({
   const navigate = useNavigate();
   return (
     <form onSubmit={onSubmit}>
-      <Box width={"80%"} mt={"1rem"}>
+      <Box width={{ base: "100%", lg: "80%" }} mt={"1rem"}>
         <Box mb="1.5rem">
           <FormInput
             label="Campaign Name"
@@ -74,7 +74,7 @@ export const CampaignForm: React.FC<AddNewCampaignFormType> = ({
           />
         </Box>
 
-        <Flex gap="1rem" mb="1.5rem">
+        <Flex gap="1rem" mb="1.5rem" flexDir={{ base: "column", md: "row" }}>
           <FormInput
             label="Start Date"
             setValue={setValue}
@@ -126,7 +126,7 @@ export const CampaignForm: React.FC<AddNewCampaignFormType> = ({
           )}
         </Box>
 
-        <Box mb="1.5rem">
+        <Box mb="1.5rem" >
           <FormInput
             label="Kindly select how often you want to receive daily digest"
             setValue={setValue}
@@ -144,7 +144,12 @@ export const CampaignForm: React.FC<AddNewCampaignFormType> = ({
           />
         </Box>
 
-        <Flex gap="1rem" mb={"3rem"} mt={"3rem"}>
+        <Flex
+          gap="1rem"
+          mb={"3rem"}
+          mt={"3rem"}
+          flexDir={{ base: "column", md: "row" }}
+        >
           <CustomButton
             type="button"
             border="2px solid #247B7B"

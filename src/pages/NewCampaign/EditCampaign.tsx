@@ -142,7 +142,7 @@ const EditCampaign = () => {
     setValue("linkedKeywords", keywords);
   };
   return (
-    <Box mt={"2rem"} px={"4rem"} position={"relative"}>
+    <Box mt={"2rem"} px={{ base: "1rem", md: "4rem" }} position={"relative"}>
       <Text color={"#247B7B"} fontWeight={"700"} fontSize={"1.25rem"}>
         Edit Campaign
       </Text>

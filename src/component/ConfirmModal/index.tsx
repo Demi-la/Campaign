@@ -37,8 +37,8 @@ const ConfirmModal: React.FC<ConfirmModalType> = ({
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent
-        height={"21.313rem"}
-        width={"35.75rem"}
+        height={{ base: "16rem", lg: "21.313rem" }}
+        width={{ base: "70%", lg: "35.75rem" }}
         m={"auto"}
         textAlign={"center"}
       >
@@ -46,7 +46,7 @@ const ConfirmModal: React.FC<ConfirmModalType> = ({
           color={"#333333"}
           fontSize={"18px"}
           fontWeight={"600"}
-          mt={"3rem"}
+          mt={{ base: "1.5rem", lg: "3rem" }}
         >
           {title}
         </ModalHeader>
@@ -60,7 +60,7 @@ const ConfirmModal: React.FC<ConfirmModalType> = ({
           color={"#666666"}
           fontSize={"16px"}
           fontWeight={"500"}
-          mt={"2rem"}
+          mt={{ base: "0rem", lg: "2rem" }}
         >
           <Text>{message}</Text>
         </ModalBody>
