@@ -23,16 +23,21 @@ const Nav = () => {
     <Box
       background={"#F0F4F4"}
       paddingY={"1rem"}
-      width={"26%"}
+      width={{ base: "30%", md: "26%", lg: "26%" }}
       height={"auto"}
       display={"flex"}
       flexDir={"column"}
       alignItems={"center"}
-      justifyContent={"center"}
-      gap={"4rem"}
+      justifyContent={{ lg: "center" }}
+      gap={{ base: "2rem", lg: "4rem" }}
     >
       <Box>
-        <Image src={logo} alt="Logo" width={"16rem"} />
+        <Image
+          src={logo}
+          alt="Logo"
+          width={"16rem"}
+          mt={{ base: "2rem", md: "0", lg: "0" }}
+        />
       </Box>
       <Box>
         <CustomButton bgColor="#247B7B" onClick={handleNavigate}>
@@ -42,7 +47,8 @@ const Nav = () => {
             display={"flex"}
             gap={"1rem"}
           >
-            <FiPlus style={{ fontSize: "1.5rem" }} /> New Campaign
+            <FiPlus style={{ fontSize: "1.5rem" }} />{" "}
+            <Text display={{ base: "none", md: "block" }}>New campaign</Text>
           </Box>
         </CustomButton>
         <List
@@ -70,7 +76,7 @@ const Nav = () => {
                   boxSize="1.5rem"
                   mr={2}
                 />
-                Overview
+                <Text display={{ base: "none", md: "block" }}>Overview</Text>
               </Flex>
             </ListItem>
           </Link>
@@ -92,7 +98,7 @@ const Nav = () => {
                   boxSize="1.5rem"
                   mr={2}
                 />
-                Campaign
+                <Text display={{ base: "none", md: "block" }}>Campaign</Text>
               </Flex>
             </ListItem>
           </Link>
@@ -100,7 +106,9 @@ const Nav = () => {
           <ListItem display={"flex"} alignItems={"center"} mt={"2rem"}>
             <Flex ml={"2.5rem"}>
               <Image src={market} alt="Market Icon" boxSize="1.5rem" mr={2} />
-              Market Intelligence
+              <Text display={{ base: "none", md: "block" }}>
+                Market Intelligence
+              </Text>
             </Flex>
           </ListItem>
 
@@ -112,12 +120,14 @@ const Nav = () => {
                 boxSize="1.5rem"
                 mr={2}
               />
-              Account Settings
+              <Text display={{ base: "none", md: "block" }}>
+                Account Settings
+              </Text>
             </Flex>
           </ListItem>
         </List>
       </Box>
-      <Box bg={"white"} width={"80%"} height={"16rem"} textAlign={"center"}>
+      <Box bg={"white"} width={{base:"88%", lg: "80%"}} height={{base:"20rem ",lg:"16rem"}} textAlign={"center"}>
         <Text
           width={"10%"}
           m={"auto"}
@@ -149,7 +159,11 @@ const Nav = () => {
         <CustomButton
           border="2px solid #247B7B"
           color="#247B7B"
-          padding={"1.3rem 2rem"}
+          padding={{
+            base: "1.3rem 0.7rem",
+            md: "1.3rem 2rem",
+            lg: "1.3rem 2rem",
+          }}
         >
           Get help
         </CustomButton>

@@ -4,7 +4,7 @@ import { FC, ButtonHTMLAttributes } from "react";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   bgColor?: string;
-  padding?: string;
+  padding?: string | object;
   border?: string;
   hoverBg?: string;
 }
