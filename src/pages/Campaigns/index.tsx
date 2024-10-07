@@ -78,7 +78,7 @@ const Campaigns = () => {
     ];
 
   return (
-    <Box px={"4rem"}>
+    <Box px={{ base: "1.5rem", lg: "4rem" }}>
       <CampaignNav
         allCampaigns={allCampaigns}
         inactiveCampaigns={inactiveCampaigns}

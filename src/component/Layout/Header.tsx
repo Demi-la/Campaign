@@ -20,14 +20,14 @@ const Header = () => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          px={"4rem"}
+          px={{base:"1.5rem", lg:"4rem"}}
         >
           <Flex gap={"15%"}>
-            <Box w={"40%"}>
+            <Box w={{base:"70%", lg:"40%"}}>
               <Input placeholder="Search for anything" py={"1.5rem"} />
             </Box>
 
-            <Flex w={"40%"}>
+            <Flex w={"40%"} display={{base:"none", lg:"flex"}}>
               <Text fontSize={"2rem"} mt={"0.7rem"}>
                 <IoMdNotificationsOutline />
               </Text>
@@ -54,7 +54,7 @@ const Header = () => {
           </Flex>
         </Box>
       </Box>
-      <Box mt="10rem"></Box>
+      <Box mt={{base:"7rem", md:"10rem", lg:"10rem"}}></Box>
     </>
   );
 };
